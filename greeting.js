@@ -19,12 +19,15 @@ function handleSubmit(event){
 function askForName(){
     form.classList.add(SHOWING_CN);
     form.addEventListener("submit", handleSubmit);
+    localStorage.removeItem("toDos");
 }
 
 function paintGreeting(text){
     form.classList.remove(SHOWING_CN);
     greeting.classList.add(SHOWING_CN);
     greeting.innerText = `Hello ${text}`;
+    document.querySelector(".js-toDoForm").classList.add(SHOWING_CN);
+    document.querySelector(".js-toDoList").classList.add(SHOWING_CN);
 }
 
 function loadName(){

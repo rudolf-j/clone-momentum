@@ -1,27 +1,20 @@
-const body = document.querySelector("body");
+const CLIENT_ID = `kvjuDb9IFALQxATLJR1o_i3Nqn3nLpaz1EVw38c98vI`;
+const COLLECTIONS = `12134442`;
+const bg = document.querySelector("#background li");
 
-const IMG_COUNT = 5;
-
-function handleLoad(){
-    console.log("loaded!!")
+function loadImg(url){
+    $("<img>").attr("src", url).on("load", function(){
+        bg.style.background = `url(${url})`;
+        bg.style.backgroundSize = "cover";
+        bg.style.backgroundPosition = "center";
+        bg.style.backgroundAttachment = "fixed";
+        bg.style.backgroundRepeat = "norepeat";
+        $("#background").fadeTo(0,0);
+        $("#background").fadeTo(200,1);
+        this.remove();
+    });
 }
 
-body.addEventListener("load", handleLoad);
-
-function paintBody(img){
-    body.style.backgroundImage = `url(images/${img+1}.jpg)`;
-    body.style.backgroundSize = `cover`;
-    body.style.backgroundRepeat = `no-repeat`;
-    body.style.backgroundPosition = `center`;
-    body.style.backgroundAttachment = `fixed`;
-}
-function selectRandom(){
-    const img = Math.floor(Math.random()*IMG_COUNT);
-    paintBody(img);   
-}
-
-function init(){
-    selectRandom();
-}
-
-init();
+fetch(`https://api.unsplash.com/photos/random?client_id=${CLIENT_ID}&collections=${COLLECTIONS}`)
+  .then((Response) => {return Response.json()})
+  .then((json) => { loadImg(json.urls.regular) });
